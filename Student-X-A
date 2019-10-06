@@ -32,6 +32,8 @@ for conni,result in re1.items():
     if isinstance(result,runners.Result):
         if result.exited == 0:
            hosts_score[conni.host].append(1)
+        else:
+            hosts_score[conni.host].append(0)
 
     else:
         hosts_score[conni.host].append(0)

@@ -1,0 +1,351 @@
+from fabric import group
+from fabric import runners
+from fabric.exceptions import GroupException
+from socket import timeout
+
+hosts_score = {'192.168.3.220':[],'192.168.4.220':[],'192.168.5.220':[],'192.168.6.220':[]}
+
+gp1 = group.ThreadingGroup('192.168.3.220','192.168.4.220','192.168.5.220','192.168.6.220',user='root',connect_kwargs = {'password':'redhat'},connect_timeout = 1)
+
+
+try:
+    re1 = gp1.run('id',warn = True)
+except GroupException as no_conn:
+
+    re1 = no_conn.result
+
+except Exception as all_exception:
+        print(all_exception)
+        print(type(all_exception))
+
+
+for conni,result in re1.items():
+    # print("{0.host}:{1.stdout}".format(conni,result))
+    print()
+    if isinstance(result,runners.Result):
+        if result.exited == 0:
+           hosts_score[conni.host].append(1)
+
+    else:
+        hosts_score[conni.host].append(0)
+        print('can not connect to {0.host} ,{1}'.format(conni,result))
+    print('{0.host} get score {1}'.format(conni,hosts_score[conni.host]))
+    print('##################')
+
+
+
+#find-1
+try:
+    find1 = gp1.run('diff /tmp/find.txt /home/jerry/.find-tmp.txt',warn = True)
+    # re2 = gp1.run('ip a', warn=True)
+except GroupException as no_conn:
+
+    find1 = no_conn.result
+except Exception as all_exception:
+        print(all_exception)
+        print(type(all_exception))
+for conni,result in find1.items():
+    # print("{0.host}:{1.stdout}".format(conni,result))
+    if isinstance(result,runners.Result):
+        if result.exited == 0:
+           hosts_score[conni.host].append(1)
+        else:
+            hosts_score[conni.host].append(0)
+    else:
+        hosts_score[conni.host].append(0)
+        print('can not connect to {0.host} ,{1}'.format(conni,result))
+
+    print('{0.host} get score {1}'.format(conni,hosts_score[conni.host]))
+    print('##################')
+#find-2
+try:
+    find2 = gp1.run('ls /tmp/find/fileintel.txt',warn = True)
+    # re2 = gp1.run('ip a', warn=True)
+except GroupException as no_conn:
+
+    find2 = no_conn.result
+except Exception as all_exception:
+        print(all_exception)
+        print(type(all_exception))
+for conni,result in find2.items():
+    # print("{0.host}:{1.stdout}".format(conni,result))
+    if isinstance(result,runners.Result):
+        if result.exited == 0:
+           hosts_score[conni.host].append(1)
+        else:
+            hosts_score[conni.host].append(0)
+    else:
+        hosts_score[conni.host].append(0)
+        print('can not connect to {0.host} ,{1}'.format(conni,result))
+
+    print('{0.host} get score {1}'.format(conni,hosts_score[conni.host]))
+    print('##################')
+
+
+#find-3
+
+try:
+    find2 = gp1.run('file /root/jerry_tmp.tar.xz',warn = True)
+    # re2 = gp1.run('ip a', warn=True)
+except GroupException as no_conn:
+
+    find2 = no_conn.result
+except Exception as all_exception:
+        print(all_exception)
+        print(type(all_exception))
+for conni,result in find2.items():
+    # print("{0.host}:{1.stdout}".format(conni,result))
+    if isinstance(result,runners.Result):
+        if 'XZ' in str(result):
+           hosts_score[conni.host].append(1)
+        else:
+            hosts_score[conni.host].append(0)
+    else:
+        hosts_score[conni.host].append(0)
+        print('can not connect to {0.host} ,{1}'.format(conni,result))
+
+    print('{0.host} get score {1}'.format(conni,hosts_score[conni.host]))
+    print('##################')
+
+#user manager 1
+try:
+    user1 = gp1.run('getent group redhat',warn = True)
+    # re2 = gp1.run('ip a', warn=True)
+except GroupException as no_conn:
+
+    user1 = no_conn.result
+except Exception as all_exception:
+        print(all_exception)
+        print(type(all_exception))
+for conni,result in user1.items():
+    # print("{0.host}:{1.stdout}".format(conni,result))
+    if isinstance(result,runners.Result):
+        if '5000' in str(result):
+           hosts_score[conni.host].append(1)
+        else:
+            hosts_score[conni.host].append(0)
+    else:
+        hosts_score[conni.host].append(0)
+        print('can not connect to {0.host} ,{1}'.format(conni,result))
+
+    print('{0.host} get score {1}'.format(conni,hosts_score[conni.host]))
+    print('##################')
+
+#user manager 2
+try:
+    user2 = gp1.run('getent group wingcloud',warn = True)
+    # re2 = gp1.run('ip a', warn=True)
+except GroupException as no_conn:
+
+    user2 = no_conn.result
+except Exception as all_exception:
+        print(all_exception)
+        print(type(all_exception))
+for conni,result in user2.items():
+    # print("{0.host}:{1.stdout}".format(conni,result))
+    if isinstance(result,runners.Result):
+        if '6000' in str(result):
+           hosts_score[conni.host].append(1)
+        else:
+            hosts_score[conni.host].append(0)
+    else:
+        hosts_score[conni.host].append(0)
+        print('can not connect to {0.host} ,{1}'.format(conni,result))
+
+    print('{0.host} get score {1}'.format(conni,hosts_score[conni.host]))
+    print('##################')
+
+#user manager 3
+try:
+    user3 = gp1.run('id marry',warn = True)
+    # re2 = gp1.run('ip a', warn=True)
+except GroupException as no_conn:
+
+    user3 = no_conn.result
+except Exception as all_exception:
+        print(all_exception)
+        print(type(all_exception))
+for conni,result in user3.items():
+    # print("{0.host}:{1.stdout}".format(conni,result))
+    if isinstance(result,runners.Result):
+        if ('3000' in str(result) )& ('7000' in str(result)):
+           hosts_score[conni.host].append(1)
+        else:
+            hosts_score[conni.host].append(0)
+    else:
+        hosts_score[conni.host].append(0)
+        print('can not connect to {0.host} ,{1}'.format(conni,result))
+
+    print('{0.host} get score {1}'.format(conni,hosts_score[conni.host]))
+    print('##################')
+
+#user manager 4
+try:
+    user4 = gp1.run('cat /etc/passwd |grep jim',warn = True)
+    # re2 = gp1.run('ip a', warn=True)
+except GroupException as no_conn:
+
+    user4 = no_conn.result
+except Exception as all_exception:
+        print(all_exception)
+        print(type(all_exception))
+for conni,result in user4.items():
+    if isinstance(result,runners.Result):
+        if 'nologin' in str(result):
+           hosts_score[conni.host].append(1)
+        else:
+            hosts_score[conni.host].append(0)
+    else:
+        hosts_score[conni.host].append(0)
+        print('can not connect to {0.host} ,{1}'.format(conni,result))
+
+    print('{0.host} get score {1}'.format(conni,hosts_score[conni.host]))
+    print('##################')
+
+
+#user manager 5_1 (check o+t)
+try:
+    user5_1 = gp1.run('ls -ld /student',warn = True)
+    # re2 = gp1.run('ip a', warn=True)
+except GroupException as no_conn:
+
+    user5_1 = no_conn.result
+except Exception as all_exception:
+        print(all_exception)
+        print(type(all_exception))
+for conni,result in user5_1.items():
+    if isinstance(result,runners.Result):
+        if 'rwt' in str(result):
+           hosts_score[conni.host].append(1)
+           print('This is {0.host}'.format(conni))
+        else:
+            hosts_score[conni.host].append(0)
+    else:
+        hosts_score[conni.host].append(0)
+        print('can not connect to {0.host} ,{1}'.format(conni,result))
+
+    print('{0.host} get score {1}'.format(conni,hosts_score[conni.host]))
+    print('##################')
+
+#user manager 5_2 (check o+t)
+try:
+    user5_2 = gp1.run('su - jerry -c umask',warn = True)
+    # re2 = gp1.run('ip a', warn=True)
+except GroupException as no_conn:
+
+    user5_2 = no_conn.result
+except Exception as all_exception:
+        print(all_exception)
+        print(type(all_exception))
+for conni,result in user5_2.items():
+    if isinstance(result,runners.Result):
+        if '022' in str(result):
+           hosts_score[conni.host].append(1)
+        else:
+            hosts_score[conni.host].append(0)
+    else:
+        hosts_score[conni.host].append(0)
+        print('can not connect to {0.host} ,{1}'.format(conni,result))
+
+    print('{0.host} get score {1}'.format(conni,hosts_score[conni.host]))
+    print('##################')
+
+
+#System Manager 1
+try:
+    sys1 = gp1.run('crontab -l > /tmp/cron.txt && diff /tmp/cron.txt /etc/check/cron.txt',warn = True)
+    # re2 = gp1.run('ip a', warn=True)
+except GroupException as no_conn:
+
+    sys1 = no_conn.result
+except Exception as all_exception:
+        print(all_exception)
+        print(type(all_exception))
+for conni,result in sys1.items():
+    if isinstance(result,runners.Result):
+        if result.exited == 0:
+           hosts_score[conni.host].append(1)
+        else:
+            hosts_score[conni.host].append(0)
+    else:
+        hosts_score[conni.host].append(0)
+        print('can not connect to {0.host} ,{1}'.format(conni,result))
+
+    print('{0.host} get score {1}'.format(conni,hosts_score[conni.host]))
+    print('##################')
+
+#System Manager 2
+try:
+    sys2 = gp1.run('yum clean all && yum reinstall rsyslog -y',warn = True)
+    # re2 = gp1.run('ip a', warn=True)
+except GroupException as no_conn:
+
+    sys2 = no_conn.result
+except Exception as all_exception:
+        print(all_exception)
+        print(type(all_exception))
+for conni,result in sys2.items():
+    if isinstance(result,runners.Result):
+        if result.exited == 0:
+           hosts_score[conni.host].append(1)
+        else:
+            hosts_score[conni.host].append(0)
+    else:
+        hosts_score[conni.host].append(0)
+        print('can not connect to {0.host} ,{1}'.format(conni,result))
+
+    print('{0.host} get score {1}'.format(conni,hosts_score[conni.host]))
+    print('##################')
+
+#System Manager 3
+try:
+    sys3 = gp1.run('iostat',warn = True)
+    # re2 = gp1.run('ip a', warn=True)
+except GroupException as no_conn:
+
+    sys3 = no_conn.result
+except Exception as all_exception:
+        print(all_exception)
+        print(type(all_exception))
+for conni,result in sys3.items():
+    if isinstance(result,runners.Result):
+        if result.exited == 0:
+           hosts_score[conni.host].append(1)
+        else:
+            hosts_score[conni.host].append(0)
+    else:
+        hosts_score[conni.host].append(0)
+        print('can not connect to {0.host} ,{1}'.format(conni,result))
+
+    print('{0.host} get score {1}'.format(conni,hosts_score[conni.host]))
+    print('##################')
+
+
+
+#System Manager 4
+try:
+    sys4 = gp1.run('diff /root/kickstart.txt /etc/check/kickstart.txt',warn = True)
+    # re2 = gp1.run('ip a', warn=True)
+except GroupException as no_conn:
+
+    sys4 = no_conn.result
+except Exception as all_exception:
+        print(all_exception)
+        print(type(all_exception))
+for conni,result in sys4.items():
+    if isinstance(result,runners.Result):
+        if result.exited == 0:
+           hosts_score[conni.host].append(1)
+        else:
+            hosts_score[conni.host].append(0)
+    else:
+        hosts_score[conni.host].append(0)
+        print('can not connect to {0.host} ,{1}'.format(conni,result))
+
+    print('{0.host} get score {1}'.format(conni,hosts_score[conni.host]))
+    print('##################')
+
+#final_score
+for hostname,fin_score in hosts_score.items():
+    print('{0} get {1},final score is {2}'.format(hostname,fin_score,sum(fin_score)))
+    #print('2nd score is {0}'.format(fin_score[2]))

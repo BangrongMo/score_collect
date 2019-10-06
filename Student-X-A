@@ -1,11 +1,18 @@
 from fabric import group
 from fabric import runners
+from fabric import Connection
 from fabric.exceptions import GroupException
 from socket import timeout
+my_hosts = []
+for hosts_ip in range(3,6):
+    my_hosts.append('192.168.{0}.220'.format(hosts_ip))
 
-hosts_score = {'192.168.3.220':[],'192.168.4.220':[],'192.168.5.220':[],'192.168.6.220':[]}
+hosts_score = {}
+for host_name in my_hosts:
+    hosts_score[host_name] = []
 
-gp1 = group.ThreadingGroup('192.168.3.220','192.168.4.220','192.168.5.220','192.168.6.220',user='root',connect_kwargs = {'password':'redhat'},connect_timeout = 1)
+con_group = [Connection(host=host,user='root',connect_kwargs = {'password':'redhat'},connect_timeout = 1) for host in my_hosts]
+gp1 = group.ThreadingGroup.from_connections(con_group)
 
 
 try:

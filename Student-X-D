@@ -1,0 +1,211 @@
+from fabric import group
+from fabric import Connection
+from fabric import runners
+from shell import shell
+from fabric.exceptions import GroupException
+
+my_hosts = []
+for hosts_ip in range(3,5):
+    my_hosts.append('192.168.{0}.223'.format(hosts_ip))
+# print(my_hosts)
+hosts_score = {}
+for host_name in my_hosts:
+    hosts_score[host_name] = []
+
+# print(hosts_score)
+# print(my_hosts)
+con_group = [Connection(host=host,user='root',connect_kwargs = {'password':'redhat'},connect_timeout = 1) for host in my_hosts]
+gp1 = group.ThreadingGroup.from_connections(con_group)
+
+#check swap
+
+try:
+    pwd1 = gp1.run('blkid |grep vdb2',warn = True)
+    # re2 = gp1.run('ip a', warn=True)
+except GroupException as no_conn:
+
+    pwd1 = no_conn.result
+except Exception as all_exception:
+        print(all_exception)
+        print(type(all_exception))
+for conni,result in pwd1.items():
+    if isinstance(result,runners.Result):
+        if 'swap' in str(result):
+           hosts_score[conni.host].append(2)
+        else:
+            hosts_score[conni.host].append(0)
+    else:
+        hosts_score[conni.host].append(0)
+        print('can not connect to {0.host} ,{1}'.format(conni,result))
+
+    print('{0.host} get score {1}'.format(conni,hosts_score[conni.host]))
+    print('##################')
+
+#check swap_autp mount
+try:
+    pwd1 = gp1.run('swapon |grep vdb2',warn = True)
+    # re2 = gp1.run('ip a', warn=True)
+except GroupException as no_conn:
+
+    pwd1 = no_conn.result
+except Exception as all_exception:
+        print(all_exception)
+        print(type(all_exception))
+for conni,result in pwd1.items():
+    if isinstance(result,runners.Result):
+        if '''2G''' in str(result):
+           hosts_score[conni.host].append(3)
+        else:
+            hosts_score[conni.host].append(0)
+    else:
+        hosts_score[conni.host].append(0)
+        print('can not connect to {0.host} ,{1}'.format(conni,result))
+
+    print('{0.host} get score {1}'.format(conni,hosts_score[conni.host]))
+    print('##################')
+
+#check vdb1 5g
+try:
+    pwd1 = gp1.run('blkid |grep vdb1',warn = True)
+    # re2 = gp1.run('ip a', warn=True)
+except GroupException as no_conn:
+
+    pwd1 = no_conn.result
+except Exception as all_exception:
+        print(all_exception)
+        print(type(all_exception))
+for conni,result in pwd1.items():
+    if isinstance(result,runners.Result):
+        if 'xfs' in str(result):
+           hosts_score[conni.host].append(2)
+        else:
+            hosts_score[conni.host].append(0)
+    else:
+        hosts_score[conni.host].append(0)
+        print('can not connect to {0.host} ,{1}'.format(conni,result))
+
+    print('{0.host} get score {1}'.format(conni,hosts_score[conni.host]))
+    print('##################')
+
+#check vdb1 xfs
+try:
+    pwd1 = gp1.run('lsblk|grep vdb1',warn = True)
+    # re2 = gp1.run('ip a', warn=True)
+except GroupException as no_conn:
+
+    pwd1 = no_conn.result
+except Exception as all_exception:
+        print(all_exception)
+        print(type(all_exception))
+for conni,result in pwd1.items():
+    if isinstance(result,runners.Result):
+        if '5G' in str(result):
+           hosts_score[conni.host].append(2)
+        else:
+            hosts_score[conni.host].append(0)
+    else:
+        hosts_score[conni.host].append(0)
+        print('can not connect to {0.host} ,{1}'.format(conni,result))
+
+    print('{0.host} get score {1}'.format(conni,hosts_score[conni.host]))
+    print('##################')
+
+#check auto_mount
+try:
+    pwd1 = gp1.run('df -h|grep vdb1',warn = True)
+    # re2 = gp1.run('ip a', warn=True)
+except GroupException as no_conn:
+
+    pwd1 = no_conn.result
+except Exception as all_exception:
+        print(all_exception)
+        print(type(all_exception))
+for conni,result in pwd1.items():
+    if isinstance(result,runners.Result):
+        if 'vdb1' in str(result):
+           hosts_score[conni.host].append(1)
+        else:
+            hosts_score[conni.host].append(0)
+    else:
+        hosts_score[conni.host].append(0)
+        print('can not connect to {0.host} ,{1}'.format(conni,result))
+
+    print('{0.host} get score {1}'.format(conni,hosts_score[conni.host]))
+    print('##################')
+
+### check lvm
+
+#check size 22G
+try:
+    pwd1 = gp1.run('lsblk|grep lv_redhat',warn = True)
+    # re2 = gp1.run('ip a', warn=True)
+except GroupException as no_conn:
+
+    pwd1 = no_conn.result
+except Exception as all_exception:
+        print(all_exception)
+        print(type(all_exception))
+for conni,result in pwd1.items():
+    if isinstance(result,runners.Result):
+        if '8G' in str(result):
+           hosts_score[conni.host].append(4)
+        else:
+            hosts_score[conni.host].append(0)
+    else:
+        hosts_score[conni.host].append(0)
+        print('can not connect to {0.host} ,{1}'.format(conni,result))
+
+    print('{0.host} get score {1}'.format(conni,hosts_score[conni.host]))
+    print('##################')
+
+
+#check ext4
+try:
+    pwd1 = gp1.run('blkid|grep lv_redhat',warn = True)
+    # re2 = gp1.run('ip a', warn=True)
+except GroupException as no_conn:
+
+    pwd1 = no_conn.result
+except Exception as all_exception:
+        print(all_exception)
+        print(type(all_exception))
+for conni,result in pwd1.items():
+    if isinstance(result,runners.Result):
+        if 'ext4' in str(result):
+           hosts_score[conni.host].append(2)
+        else:
+            hosts_score[conni.host].append(0)
+    else:
+        hosts_score[conni.host].append(0)
+        print('can not connect to {0.host} ,{1}'.format(conni,result))
+
+    print('{0.host} get score {1}'.format(conni,hosts_score[conni.host]))
+    print('##################')
+
+#check auto_mount
+try:
+    pwd1 = gp1.run('df -h|grep lv_redhat',warn = True)
+    # re2 = gp1.run('ip a', warn=True)
+except GroupException as no_conn:
+
+    pwd1 = no_conn.result
+except Exception as all_exception:
+        print(all_exception)
+        print(type(all_exception))
+for conni,result in pwd1.items():
+    if isinstance(result,runners.Result):
+        if '''/mnt/lv_redhat''' in str(result):
+           hosts_score[conni.host].append(1)
+        else:
+            hosts_score[conni.host].append(0)
+    else:
+        hosts_score[conni.host].append(0)
+        print('can not connect to {0.host} ,{1}'.format(conni,result))
+
+    print('{0.host} get score {1}'.format(conni,hosts_score[conni.host]))
+    print('##################')
+
+#final_score
+for hostname,fin_score in hosts_score.items():
+    print('{0} get {1},final score is {2}'.format(hostname,fin_score,sum(fin_score)))
+    #print('2nd score is {0}'.format(fin_score[2]))

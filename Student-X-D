@@ -20,15 +20,15 @@ gp1 = group.ThreadingGroup.from_connections(con_group)
 #check swap
 
 try:
-    pwd1 = gp1.run('blkid |grep vdb2',warn = True)
+    swap1 = gp1.run('blkid |grep vdb2',warn = True)
     # re2 = gp1.run('ip a', warn=True)
 except GroupException as no_conn:
 
-    pwd1 = no_conn.result
+    swap1 = no_conn.result
 except Exception as all_exception:
         print(all_exception)
         print(type(all_exception))
-for conni,result in pwd1.items():
+for conni,result in swap1.items():
     if isinstance(result,runners.Result):
         if 'swap' in str(result):
            hosts_score[conni.host].append(2)
@@ -43,15 +43,15 @@ for conni,result in pwd1.items():
 
 #check swap_autp mount
 try:
-    pwd1 = gp1.run('swapon |grep vdb2',warn = True)
+    mnt1 = gp1.run('swapon |grep vdb2',warn = True)
     # re2 = gp1.run('ip a', warn=True)
 except GroupException as no_conn:
 
-    pwd1 = no_conn.result
+    mnt1 = no_conn.result
 except Exception as all_exception:
         print(all_exception)
         print(type(all_exception))
-for conni,result in pwd1.items():
+for conni,result in mnt1.items():
     if isinstance(result,runners.Result):
         if '''2G''' in str(result):
            hosts_score[conni.host].append(3)
@@ -66,15 +66,15 @@ for conni,result in pwd1.items():
 
 #check vdb1 5g
 try:
-    pwd1 = gp1.run('blkid |grep vdb1',warn = True)
+    vdb1 = gp1.run('blkid |grep vdb1',warn = True)
     # re2 = gp1.run('ip a', warn=True)
 except GroupException as no_conn:
 
-    pwd1 = no_conn.result
+    vdb1 = no_conn.result
 except Exception as all_exception:
         print(all_exception)
         print(type(all_exception))
-for conni,result in pwd1.items():
+for conni,result in vdb1.items():
     if isinstance(result,runners.Result):
         if 'xfs' in str(result):
            hosts_score[conni.host].append(2)
@@ -89,15 +89,15 @@ for conni,result in pwd1.items():
 
 #check vdb1 xfs
 try:
-    pwd1 = gp1.run('lsblk|grep vdb1',warn = True)
+    xfs1 = gp1.run('lsblk|grep vdb1',warn = True)
     # re2 = gp1.run('ip a', warn=True)
 except GroupException as no_conn:
 
-    pwd1 = no_conn.result
+    xfs1 = no_conn.result
 except Exception as all_exception:
         print(all_exception)
         print(type(all_exception))
-for conni,result in pwd1.items():
+for conni,result in xfs1.items():
     if isinstance(result,runners.Result):
         if '5G' in str(result):
            hosts_score[conni.host].append(2)
@@ -112,17 +112,17 @@ for conni,result in pwd1.items():
 
 #check auto_mount
 try:
-    pwd1 = gp1.run('df -h|grep vdb1',warn = True)
+    mnt2 = gp1.run('df -h|grep vdb1',warn = True)
     # re2 = gp1.run('ip a', warn=True)
 except GroupException as no_conn:
 
-    pwd1 = no_conn.result
+    mnt2 = no_conn.result
 except Exception as all_exception:
         print(all_exception)
         print(type(all_exception))
-for conni,result in pwd1.items():
+for conni,result in mnt2.items():
     if isinstance(result,runners.Result):
-        if 'vdb1' in str(result):
+        if '''/mnt/vdb1''' in str(result):
            hosts_score[conni.host].append(1)
         else:
             hosts_score[conni.host].append(0)
@@ -137,15 +137,15 @@ for conni,result in pwd1.items():
 
 #check size 22G
 try:
-    pwd1 = gp1.run('lsblk|grep lv_redhat',warn = True)
+    lvm1 = gp1.run('lsblk|grep lv_redhat',warn = True)
     # re2 = gp1.run('ip a', warn=True)
 except GroupException as no_conn:
 
-    pwd1 = no_conn.result
+    lvm1 = no_conn.result
 except Exception as all_exception:
         print(all_exception)
         print(type(all_exception))
-for conni,result in pwd1.items():
+for conni,result in lvm1.items():
     if isinstance(result,runners.Result):
         if '8G' in str(result):
            hosts_score[conni.host].append(4)
@@ -161,15 +161,15 @@ for conni,result in pwd1.items():
 
 #check ext4
 try:
-    pwd1 = gp1.run('blkid|grep lv_redhat',warn = True)
+    ext4 = gp1.run('blkid|grep lv_redhat',warn = True)
     # re2 = gp1.run('ip a', warn=True)
 except GroupException as no_conn:
 
-    pwd1 = no_conn.result
+    ext4 = no_conn.result
 except Exception as all_exception:
         print(all_exception)
         print(type(all_exception))
-for conni,result in pwd1.items():
+for conni,result in ext4.items():
     if isinstance(result,runners.Result):
         if 'ext4' in str(result):
            hosts_score[conni.host].append(2)
@@ -184,15 +184,15 @@ for conni,result in pwd1.items():
 
 #check auto_mount
 try:
-    pwd1 = gp1.run('df -h|grep lv_redhat',warn = True)
+    mnt3 = gp1.run('df -h|grep lv_redhat',warn = True)
     # re2 = gp1.run('ip a', warn=True)
 except GroupException as no_conn:
 
-    pwd1 = no_conn.result
+    mnt3 = no_conn.result
 except Exception as all_exception:
         print(all_exception)
         print(type(all_exception))
-for conni,result in pwd1.items():
+for conni,result in mnt3.items():
     if isinstance(result,runners.Result):
         if '''/mnt/lv_redhat''' in str(result):
            hosts_score[conni.host].append(1)

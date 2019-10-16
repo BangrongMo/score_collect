@@ -66,16 +66,16 @@ for conni,result in dns1.items():
 
 #check gateway
 try:
-    dns1 = gp1.run('ip route |grep default|grep 254',warn = True)
+    gw1 = gp1.run('ip route |grep default|grep 254',warn = True)
     #dns1 = gp1.run('ping 192.168.233.100 -c4',warn = True)
 
 except GroupException as no_conn:
 
-    dns1 = no_conn.result
+    gw1 = no_conn.result
 except Exception as all_exception:
         print(all_exception)
         print(type(all_exception))
-for conni,result in dns1.items():
+for conni,result in gw1.items():
     if isinstance(result,runners.Result):
         if result.exited == 0:
            hosts_score[conni.host].append(1)

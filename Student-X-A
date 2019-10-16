@@ -31,14 +31,13 @@ for conni,result in re1.items():
     print()
     if isinstance(result,runners.Result):
         if result.exited == 0:
-           hosts_score[conni.host].append(1)
+           print('{0}.host is online'.format(conni))
         else:
             hosts_score[conni.host].append(0)
 
     else:
-        hosts_score[conni.host].append(0)
+        print('{0}.host is offline'.format(conni))
         print('can not connect to {0.host} ,{1}'.format(conni,result))
-    print('{0.host} get score {1}'.format(conni,hosts_score[conni.host]))
     print('##################')
 
 
@@ -57,7 +56,7 @@ for conni,result in find1.items():
     # print("{0.host}:{1.stdout}".format(conni,result))
     if isinstance(result,runners.Result):
         if result.exited == 0:
-           hosts_score[conni.host].append(1)
+           hosts_score[conni.host].append(4)
         else:
             hosts_score[conni.host].append(0)
     else:
@@ -80,7 +79,7 @@ for conni,result in find2.items():
     # print("{0.host}:{1.stdout}".format(conni,result))
     if isinstance(result,runners.Result):
         if result.exited == 0:
-           hosts_score[conni.host].append(1)
+           hosts_score[conni.host].append(4)
         else:
             hosts_score[conni.host].append(0)
     else:
@@ -106,7 +105,7 @@ for conni,result in find2.items():
     # print("{0.host}:{1.stdout}".format(conni,result))
     if isinstance(result,runners.Result):
         if 'XZ' in str(result):
-           hosts_score[conni.host].append(1)
+           hosts_score[conni.host].append(4)
         else:
             hosts_score[conni.host].append(0)
     else:
@@ -188,7 +187,7 @@ for conni,result in user3.items():
     print('{0.host} get score {1}'.format(conni,hosts_score[conni.host]))
     print('##################')
 
-#user manager 4
+#user manager 4.1
 try:
     user4 = gp1.run('cat /etc/passwd |grep jim',warn = True)
     # re2 = gp1.run('ip a', warn=True)
@@ -201,7 +200,31 @@ except Exception as all_exception:
 for conni,result in user4.items():
     if isinstance(result,runners.Result):
         if 'nologin' in str(result):
-           hosts_score[conni.host].append(1)
+           hosts_score[conni.host].append(3)
+        else:
+            hosts_score[conni.host].append(0)
+    else:
+        hosts_score[conni.host].append(0)
+        print('can not connect to {0.host} ,{1}'.format(conni,result))
+
+    print('{0.host} get score {1}'.format(conni,hosts_score[conni.host]))
+    print('##################')
+
+
+#user manager 4.2
+try:
+    user4 = gp1.run('cat /etc/passwd |grep marry',warn = True)
+    # re2 = gp1.run('ip a', warn=True)
+except GroupException as no_conn:
+
+    user4 = no_conn.result
+except Exception as all_exception:
+        print(all_exception)
+        print(type(all_exception))
+for conni,result in user4.items():
+    if isinstance(result,runners.Result):
+        if ('5000(redhat)' in str(result)) & ('6000(wingcloud)' in str(result)):
+           hosts_score[conni.host].append(3)
         else:
             hosts_score[conni.host].append(0)
     else:
@@ -225,7 +248,7 @@ except Exception as all_exception:
 for conni,result in user5_1.items():
     if isinstance(result,runners.Result):
         if 'rwt' in str(result):
-           hosts_score[conni.host].append(1)
+           hosts_score[conni.host].append(3)
            print('This is {0.host}'.format(conni))
         else:
             hosts_score[conni.host].append(0)
@@ -249,7 +272,7 @@ except Exception as all_exception:
 for conni,result in user5_2.items():
     if isinstance(result,runners.Result):
         if '022' in str(result):
-           hosts_score[conni.host].append(1)
+           hosts_score[conni.host].append(3)
         else:
             hosts_score[conni.host].append(0)
     else:
@@ -273,7 +296,7 @@ except Exception as all_exception:
 for conni,result in sys1.items():
     if isinstance(result,runners.Result):
         if result.exited == 0:
-           hosts_score[conni.host].append(1)
+           hosts_score[conni.host].append(7)
         else:
             hosts_score[conni.host].append(0)
     else:
@@ -296,7 +319,7 @@ except Exception as all_exception:
 for conni,result in sys2.items():
     if isinstance(result,runners.Result):
         if result.exited == 0:
-           hosts_score[conni.host].append(1)
+           hosts_score[conni.host].append(4)
         else:
             hosts_score[conni.host].append(0)
     else:
@@ -319,7 +342,7 @@ except Exception as all_exception:
 for conni,result in sys3.items():
     if isinstance(result,runners.Result):
         if result.exited == 0:
-           hosts_score[conni.host].append(1)
+           hosts_score[conni.host].append(4)
         else:
             hosts_score[conni.host].append(0)
     else:
@@ -344,7 +367,7 @@ except Exception as all_exception:
 for conni,result in sys4.items():
     if isinstance(result,runners.Result):
         if result.exited == 0:
-           hosts_score[conni.host].append(1)
+           hosts_score[conni.host].append(5)
         else:
             hosts_score[conni.host].append(0)
     else:

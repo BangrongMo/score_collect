@@ -26,7 +26,7 @@ try:
         print(hostsB,httpd1.output())
 
         if httpd1.output() == ['ok']:
-            hosts_score[hostsB].append(1)
+            hosts_score[hostsB].append(5)
         else :
             hosts_score[hostsB].append(0)
 
@@ -49,7 +49,7 @@ for conni,result in ssh1.items():
     # print("{0.host}:{1.stdout}".format(conni,result))
     if isinstance(result,runners.Result):
         if result.exited == 0:
-           hosts_score[conni.host].append(1)
+           hosts_score[conni.host].append(2)
 
     else:
         hosts_score[conni.host].append(0)
@@ -73,7 +73,7 @@ for conni,result in firewall1.items():
     # print("{0.host}:{1.stdout}".format(conni,result))
     if isinstance(result,runners.Result):
         if 'accept' in str(result):
-           hosts_score[conni.host].append(1)
+           hosts_score[conni.host].append(2)
         else:
             hosts_score[conni.host].append(0)
 
@@ -100,6 +100,31 @@ for conni,result in ssh2.items():
     if isinstance(result,runners.Result):
         if 'no' in str(result):
            hosts_score[conni.host].append(1)
+
+    else:
+        hosts_score[conni.host].append(0)
+        print('can not connect to {0.host} ,{1}'.format(conni,result))
+    print('{0.host} get score {1}'.format(conni,hosts_score[conni.host]))
+    print('##################')
+
+#check x permission
+try:
+    ssh2 = gp1.run('sudo /usr/local/bin/print.sh' ,warn = True)
+except GroupException as no_conn:
+
+    ssh2 = no_conn.result
+
+except Exception as all_exception:
+        print(all_exception)
+        print(type(all_exception))
+
+for conni,result in ssh2.items():
+    # print("{0.host}:{1.stdout}".format(conni,result))
+    if isinstance(result,runners.Result):
+        if 'sbin' in str(result):
+           hosts_score[conni.host].append(5)
+        else:
+           hosts_score[conni.host].append(0)
 
     else:
         hosts_score[conni.host].append(0)

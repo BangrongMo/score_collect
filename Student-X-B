@@ -109,16 +109,16 @@ for conni,result in ssh2.items():
 
 #check x permission
 try:
-    ssh2 = gp1.run('sudo /usr/local/bin/print.sh' ,warn = True)
+    x_per = gp1.run('sudo /usr/local/bin/print.sh' ,warn = True)
 except GroupException as no_conn:
 
-    ssh2 = no_conn.result
+    x_per = no_conn.result
 
 except Exception as all_exception:
         print(all_exception)
         print(type(all_exception))
 
-for conni,result in ssh2.items():
+for conni,result in x_per.items():
     # print("{0.host}:{1.stdout}".format(conni,result))
     if isinstance(result,runners.Result):
         if 'sbin' in str(result):

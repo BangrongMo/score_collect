@@ -1,1 +1,1 @@
-# score_collect
+# score(ryzen)_collect

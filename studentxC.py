@@ -14,7 +14,7 @@ def score_c(start_h,end_h):
 
     # print(hosts_score)
     # print(my_hosts)
-    con_group = [Connection(host=host,user='admin',connect_kwargs = {'password':'redhat'},connect_timeout = 10，port=ssh_port) for host in my_hosts]
+    con_group = [Connection(host=host,user='admin',connect_kwargs = {'password':'redhat'},connect_timeout = 10,port=ssh_port) for host in my_hosts]
     gp1 = group.ThreadingGroup.from_connections(con_group)
 
     #第一题：用redhat1234作为密码登陆，检测密码重置情况

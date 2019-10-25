@@ -12,7 +12,7 @@ def score_a(start_h,end_h,ssh_port=22):
     for host_name in my_hosts:
         hosts_score[host_name] = []
 
-    con_group = [Connection(host=host,user='root',connect_kwargs = {'password':'redhat'},connect_timeout = 10 port=ssh_port) for host in my_hosts]
+    con_group = [Connection(host=host,user='root',connect_kwargs = {'password':'redhat'},connect_timeout = 10,port=ssh_port) for host in my_hosts]
     gp1 = group.ThreadingGroup.from_connections(con_group)
 
 

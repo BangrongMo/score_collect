@@ -5,7 +5,7 @@ from shell import shell
 from fabric.exceptions import GroupException
 def score_c(start_h,end_h):
     my_hosts = []
-    for hosts_ip in range(start_h,end_h):
+    for hosts_ip in range(start_h,end_h,ssh_port=22):
         my_hosts.append('172.20.{0}.222'.format(hosts_ip))
     # print(my_hosts)
     hosts_score = {}
@@ -14,7 +14,7 @@ def score_c(start_h,end_h):
 
     # print(hosts_score)
     # print(my_hosts)
-    con_group = [Connection(host=host,user='admin',connect_kwargs = {'password':'redhat'},connect_timeout = 10) for host in my_hosts]
+    con_group = [Connection(host=host,user='admin',connect_kwargs = {'password':'redhat'},connect_timeout = 10，port=ssh_port) for host in my_hosts]
     gp1 = group.ThreadingGroup.from_connections(con_group)
 
     #第一题：用redhat1234作为密码登陆，检测密码重置情况

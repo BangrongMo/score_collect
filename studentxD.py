@@ -3,7 +3,7 @@ from fabric import Connection
 from fabric import runners
 from shell import shell
 from fabric.exceptions import GroupException
-def score_d(start_h,end_h):
+def score_d(start_h,end_h,port=ssh_port):
     my_hosts = []
     for hosts_ip in range(start_h,end_h):
         my_hosts.append('172.20.{0}.223'.format(hosts_ip))
@@ -14,7 +14,7 @@ def score_d(start_h,end_h):
 
     # print(hosts_score)
     # print(my_hosts)
-    con_group = [Connection(host=host,user='root',connect_kwargs = {'password':'redhat'},connect_timeout = 10) for host in my_hosts]
+    con_group = [Connection(host=host,user='root',connect_kwargs = {'password':'redhat'},connect_timeout = 10,port=ssh_port) for host in my_hosts]
     gp1 = group.ThreadingGroup.from_connections(con_group)
 
     #检测sdb1文件系统
